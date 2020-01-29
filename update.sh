@@ -1,1 +1,7 @@
-aws cloudformation update-stack --stack-name hawa-udacity-project --region eu-west-1 --template-body file://hawa.yaml --parameters file://hawa-parameters.json  --profile udacity-serverless
+aws cloudformation update-stack \
+--stack-name hawa-udacity-project \
+--region eu-west-1 \
+--capabilities CAPABILITY_NAMED_IAM \
+--profile udacity-serverless \
+--template-body file://$1 \
+--parameters file://$2 
