@@ -11,3 +11,8 @@ TODO: Separation of concerns when I have time. So files can deal with one aspect
 ```bash
 ./update.sh hawa.yaml hawa-parameters.json
 ```
+
+
+The URL of the deployed app is at 
+
+http://hawa-loadb-9bwkl0hqcr2v-1775168024.eu-west-1.elb.amazonaws.com/

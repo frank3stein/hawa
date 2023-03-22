@@ -175,6 +175,47 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
 
+
+  S3ReadOnlyEC2:
+    Type: AWS::IAM::Role
+    Properties:
+        RoleName: 
+            !Sub ${EnvironmentName}-Role
+        AssumeRolePolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+            -   Effect: Allow
+                Principal:
+                    Service:
+                    - ec2.amazonaws.com
+                Action:
+                - sts:AssumeRole
+        Path: "/"
+
+  RolePolicies:
+      Type: AWS::IAM::Policy
+      Properties:
+          PolicyName: AmazonS3ReadOnlyAccess
+          PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+              - 
+                  Effect: Allow
+                  Action: 
+                  -   s3:Get*
+                  -   s3:List*
+                  Resource: 
+                  -   arn:aws:s3:::hawa
+                  -   arn:aws:s3:::hawa/*
+          Roles:
+          -   Ref: S3ReadOnlyEC2
+  ProfileWithRolesForOurApp:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+        Path: "/"
+        Roles:
+        - Ref: S3ReadOnlyEC2
+
   LoadBalancer:
     Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
     Properties:
@@ -266,12 +307,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-WebServerSecGroup
-      #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
-  ProfileWithRolesForOurApp:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Roles:
-        - HawaS3ReadOnly
 
   WebAppLaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
@@ -284,8 +319,8 @@ Resources:
           apt-get install apache2 -y
           systemctl start apache2.service
           cd /var/www/html
-          aws s3 cp s3://hawa/hawa.zip .
-          unzip -o hawa.zip
+          aws s3 cp s3://hawa/udacity.zip .
+          unzip -o udacity.zip
       ImageId: ami-02df9ea15c1778c9c
       IamInstanceProfile: !Ref ProfileWithRolesForOurApp
       SecurityGroups:
