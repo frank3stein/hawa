@@ -1,5 +1,5 @@
 aws cloudformation update-stack \
---stack-name hawa-udacity-project \
+--stack-name hawa-udacity \
 --region eu-west-1 \
 --capabilities CAPABILITY_NAMED_IAM \
 --profile udacity-serverless \
