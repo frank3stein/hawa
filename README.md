@@ -26,4 +26,4 @@ aws cloudformation validate-template --template-body file://hawa-services.yaml
 
 The URL of the deployed app is at
 
-http://hawa-loadb-9bwkl0hqcr2v-1775168024.eu-west-1.elb.amazonaws.com/
+http://hawa-loadb-raox13cduofe-1338893344.eu-west-1.elb.amazonaws.com/
